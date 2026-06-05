@@ -16,25 +16,33 @@ class Curso {
 
 class ListaDesejos {
   constructor() {
+    // INICIO DA ESTRUTURA DE DADOS: LISTA
+    // A lista foi feita usando um array chamado "itens".
+    // Cada posicao desse array guarda um objeto do tipo Curso.
     this.itens = [
       new Curso("Desenvolvimento Web", "Tecnologia", 0, "🌐", "verde-texto"),
       new Curso("Panificacao Artesanal", "Culinaria", 0, "🍞", "laranja-texto"),
       new Curso("Gestao do Tempo", "Educacao", 0, "📘", "azul-texto"),
       new Curso("Sustentabilidade na Pratica", "Meio Ambiente", 0, "🌿", "verde-texto")
     ];
+    // FIM DA ESTRUTURA DE DADOS: LISTA
   }
 
   adicionar(curso) {
+    // push adiciona um novo curso no final da lista.
     this.itens.push(curso);
   }
 
   remover(posicao) {
+    // splice remove um item da lista usando a posicao dele.
     this.itens.splice(posicao, 1);
   }
 
   removerPorNome(nome) {
+    // Percorre a lista procurando um curso com o mesmo nome.
     for (var i = 0; i < this.itens.length; i++) {
       if (this.itens[i].nome.toLowerCase() == nome.toLowerCase()) {
+        // Quando encontra, remove esse curso da lista.
         this.itens.splice(i, 1);
         return;
       }
@@ -54,6 +62,7 @@ class Aplicacao {
     ];
 
     this.listaDesejos = new ListaDesejos();
+    // Esta variavel controla se os cursos estao ordenados por progresso.
     this.ordenado = false;
   }
 
@@ -151,6 +160,7 @@ class Aplicacao {
     var htmlLista = "";
     var htmlInicio = "";
 
+    // Percorre a lista de desejos e monta o HTML de cada item na tela.
     for (var i = 0; i < this.listaDesejos.itens.length; i++) {
       var item = this.listaDesejos.itens[i];
 
@@ -198,6 +208,7 @@ class Aplicacao {
     for (var i = 0; i < botoesRemover.length; i++) {
       botoesRemover[i].onclick = (evento) => {
         var posicao = evento.currentTarget.getAttribute("data-posicao");
+        // Remove o desejo pela posicao que ele ocupa na lista.
         this.listaDesejos.remover(posicao);
         this.mostrarDesejos();
       };
@@ -209,6 +220,7 @@ class Aplicacao {
         var nome = botao.getAttribute("data-nome");
         var categoria = botao.getAttribute("data-categoria");
         var icone = botao.getAttribute("data-icone");
+        // Adiciona o curso selecionado na lista de desejos.
         this.adicionarNaLista(nome, categoria, icone);
       };
     }
@@ -237,6 +249,7 @@ class Aplicacao {
   }
 
   adicionarNaLista(nome, categoria, icone) {
+    // Antes de adicionar, percorre a lista para evitar curso repetido.
     for (var i = 0; i < this.listaDesejos.itens.length; i++) {
       if (this.listaDesejos.itens[i].nome.toLowerCase() == nome.toLowerCase()) {
         this.mostrarAviso("Este curso ja esta na lista de desejos.");
@@ -254,12 +267,14 @@ class Aplicacao {
   }
 
   concluirCurso(nomeCurso) {
+    // Procura o curso pelo nome e altera o progresso dele para 100%.
     for (var i = 0; i < this.cursos.length; i++) {
       if (this.cursos[i].nome == nomeCurso) {
         this.cursos[i].concluir();
       }
     }
 
+    // Se o curso concluido estava na lista de desejos, ele e removido.
     this.listaDesejos.removerPorNome(nomeCurso);
     this.mostrarCursos();
     this.mostrarDesejos();
