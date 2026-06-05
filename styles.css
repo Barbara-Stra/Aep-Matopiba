@@ -133,6 +133,14 @@ button {
   padding: 38px 45px;
 }
 
+.pagina-site {
+  display: none;
+}
+
+.pagina-site.aparecer {
+  display: block;
+}
+
 .cabecalho h1 {
   margin: 0 0 8px;
   font-size: 28px;
@@ -168,6 +176,11 @@ button {
   justify-content: space-between;
   gap: 15px;
   align-items: center;
+}
+
+.topo-card > div p {
+  margin: 8px 0 0;
+  color: #555;
 }
 
 .topo-card p {
@@ -303,7 +316,9 @@ button {
 }
 
 .topo-card button,
-.link-verde {
+.link-verde,
+.link-pagina,
+#botaoOrdenar {
   border: none;
   background: white;
   color: #0f5f1f;
@@ -316,6 +331,10 @@ button {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 25px;
+}
+
+.lista-completa {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .curso {
@@ -332,6 +351,24 @@ button {
   height: 70px;
   border-radius: 8px;
   font-size: 30px;
+}
+
+.botao-desejo,
+.remover,
+.form-desejo button {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #2e7d32;
+  color: white;
+  font-weight: bold;
+}
+
+.remover {
+  margin-top: 0;
+  background: #f0f6ec;
+  color: #1c7728;
 }
 
 .verde {
@@ -405,12 +442,25 @@ button {
   padding: 26px 34px;
 }
 
+.contador {
+  display: inline-block;
+  min-width: 34px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #eef6ea;
+  color: #0f5f1f;
+  font-weight: bold;
+  text-align: center;
+}
+
 .desejo {
   display: grid;
-  grid-template-columns: 36px 1fr 32px;
+  grid-template-columns: 36px 1fr auto;
   gap: 12px;
   align-items: center;
   margin-top: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #edf0ea;
 }
 
 .desejo h4 {
@@ -438,6 +488,79 @@ button {
 .link-verde {
   margin-top: 24px;
   padding: 0;
+}
+
+.pagina-card {
+  padding: 28px;
+}
+
+.pagina-card > p {
+  max-width: 850px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.form-desejo {
+  display: grid;
+  grid-template-columns: 1fr 190px auto;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.form-desejo input,
+.form-desejo select {
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dce3d8;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.form-desejo button {
+  margin-top: 0;
+}
+
+.aviso {
+  min-height: 22px;
+  margin: -8px 0 18px;
+  color: #1c7728;
+  font-weight: bold;
+}
+
+.lista-desejos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+
+.vazio {
+  color: #666;
+  font-style: italic;
+}
+
+.grade-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.grade-info div {
+  padding: 20px;
+  border: 1px solid #e2e6df;
+  border-radius: 8px;
+  background: #fbfdf9;
+}
+
+.grade-info h3 {
+  margin: 0 0 10px;
+  color: #23772c;
+}
+
+.grade-info p {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
 }
 
 .matopiba {
@@ -563,7 +686,10 @@ button {
   }
 
   .linha,
-  .matopiba {
+  .matopiba,
+  .lista-completa,
+  .lista-desejos,
+  .grade-info {
     grid-template-columns: 1fr;
   }
 }
@@ -574,6 +700,10 @@ button {
   }
 
   .cards-cursos {
+    grid-template-columns: 1fr;
+  }
+
+  .form-desejo {
     grid-template-columns: 1fr;
   }
 
