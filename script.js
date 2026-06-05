@@ -5,6 +5,12 @@ class Curso {
     this.progresso = progresso;
     this.icone = icone;
     this.cor = cor;
+    this.concluido = progresso >= 100;
+  }
+
+  concluir() {
+    this.progresso = 100;
+    this.concluido = true;
   }
 }
 
@@ -24,6 +30,15 @@ class ListaDesejos {
 
   remover(posicao) {
     this.itens.splice(posicao, 1);
+  }
+
+  removerPorNome(nome) {
+    for (var i = 0; i < this.itens.length; i++) {
+      if (this.itens[i].nome.toLowerCase() == nome.toLowerCase()) {
+        this.itens.splice(i, 1);
+        return;
+      }
+    }
   }
 }
 
@@ -109,14 +124,23 @@ class Aplicacao {
   }
 
   criarCardCurso(curso) {
+    var textoBotao = "Concluir curso";
+    var classeConcluido = "";
+
+    if (curso.concluido == true) {
+      textoBotao = "Curso concluido";
+      classeConcluido = "curso-concluido";
+    }
+
     return `
-      <div class="curso">
+      <div class="curso ${classeConcluido}">
         <div class="icone">${curso.icone}</div>
         <p class="categoria ${curso.cor}">${curso.categoria}</p>
         <h3>${curso.nome}</h3>
         <p>${curso.progresso}% concluido</p>
         <div class="barra"><span style="width:${curso.progresso}%"></span></div>
         <button class="botao-desejo" data-nome="${curso.nome}" data-categoria="${curso.categoria}" data-icone="${curso.icone}">Adicionar aos desejos</button>
+        <button class="botao-concluir" data-nome="${curso.nome}">${textoBotao}</button>
       </div>
     `;
   }
@@ -169,6 +193,7 @@ class Aplicacao {
   configurarBotoesDesejos() {
     var botoesRemover = document.querySelectorAll(".remover");
     var botoesAdicionar = document.querySelectorAll(".botao-desejo");
+    var botoesConcluir = document.querySelectorAll(".botao-concluir");
 
     for (var i = 0; i < botoesRemover.length; i++) {
       botoesRemover[i].onclick = (evento) => {
@@ -185,6 +210,13 @@ class Aplicacao {
         var categoria = botao.getAttribute("data-categoria");
         var icone = botao.getAttribute("data-icone");
         this.adicionarNaLista(nome, categoria, icone);
+      };
+    }
+
+    for (var k = 0; k < botoesConcluir.length; k++) {
+      botoesConcluir[k].onclick = (evento) => {
+        var nomeCurso = evento.currentTarget.getAttribute("data-nome");
+        this.concluirCurso(nomeCurso);
       };
     }
   }
@@ -221,6 +253,20 @@ class Aplicacao {
     document.getElementById("avisoDesejo").innerHTML = texto;
   }
 
+  concluirCurso(nomeCurso) {
+    for (var i = 0; i < this.cursos.length; i++) {
+      if (this.cursos[i].nome == nomeCurso) {
+        this.cursos[i].concluir();
+      }
+    }
+
+    this.listaDesejos.removerPorNome(nomeCurso);
+    this.mostrarCursos();
+    this.mostrarDesejos();
+    this.atualizarResumo();
+    this.mostrarAviso("Curso concluido. Ele foi removido da lista de desejos.");
+  }
+
   configurarOrdenacao() {
     document.getElementById("botaoOrdenar").onclick = () => {
       if (this.ordenado == false) {
@@ -248,8 +294,20 @@ class Aplicacao {
     document.getElementById("textoProgresso").innerHTML = media + "%";
     document.getElementById("barraProgresso").style.width = media + "%";
     document.getElementById("totalCursos").innerHTML = this.cursos.length;
-    document.getElementById("cursosConcluidos").innerHTML = "3";
-    document.getElementById("totalArvores").innerHTML = this.cursos.length * 4;
+    document.getElementById("cursosConcluidos").innerHTML = this.contarConcluidos();
+    document.getElementById("totalArvores").innerHTML = this.contarConcluidos() * 8;
+  }
+
+  contarConcluidos() {
+    var total = 0;
+
+    for (var i = 0; i < this.cursos.length; i++) {
+      if (this.cursos[i].concluido == true) {
+        total++;
+      }
+    }
+
+    return total;
   }
 
   atualizarContadorDesejos() {
